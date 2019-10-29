@@ -1,0 +1,277 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  font-size: 32px;
+  font-family: Verdana, sans-serif;
+}
+.modal {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  opacity: 0.8;
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.howtouse {
+  background: #fff;
+  left: 50%;
+  padding: 40px;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+}
+.howtouse > h1 {
+  font-size: 24px;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+.howtouse > p {
+  width: 100%;
+  font-size: 20px;
+  padding: 2px 0px 2px 20px;
+  line-height: 26px;
+}
+#setsumeiFlag {
+  width: 400px;
+  text-align: center;
+  font-size: 18px;
+  margin: 20px auto 0;
+  vertical-align: middle;
+}
+#start {
+  width: 200px;
+  height: 40px;
+  font-size: 18px;
+  margin: 20px auto 0;
+  background: #ffd61a;
+  font-size: 18px;
+  color: #fff;
+  text-align: center;
+  line-height: 40px;
+  font-weight: bold;
+  user-select: none;
+  box-shadow: 0 3px 0 #f1d111;
+}
+#start:hover {
+  cursor: pointer;
+  background: #ffe62a;
+  box-shadow: 0 3px 0 #f1e121;
+}
+#start:active {
+  top: 3px;
+  box-shadow: none;
+}
+header {
+  width: 100%;
+  height: 100px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  background-color: #1abc9c;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+  line-height: 100px;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+}
+header > h1 {
+  padding-top: 32px;
+  font-family: "Lobster", cursive;
+  font-weight: bold;
+  font-size: 36px;
+  line-height: 36px;
+}
+header > h2 {
+  font-family: "Lobster", cursive;
+  font-size: 20px;
+  line-height: 24px;
+  margin-left: 20px;
+}
+.thumbnail {
+  width: auto;
+  height: 120px;
+  object-fit: cover;
+}
+#resetPs {
+  margin-left: 40px;
+}
+#resetPs,
+#resetAll {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  font-style: italic;
+  font-size: 12px;
+  line-height: 12px;
+}
+main {
+  width: 100%;
+  height: calc(100% - 100px);
+  position: absolute;
+  top: 100px;
+  left: 0px;
+  display: flex;
+  justify-content: left;
+  align-items: stretch;
+  flex-direction: row;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+}
+#storyline {
+  width: 30%;
+  height: calc(100% - 20px);
+  border-right: 1px solid #ccc;
+  padding: 10px;
+  resize: horizontal;
+  overflow: hidden;
+}
+#storylineInput {
+  font-size: 16px;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: #fff;
+  background: #efefef;
+  resize: none;
+}
+#sketch {
+  font-size: 16px;
+  flex-grow: 1;
+  padding: 10px;
+  display: flex;
+  justify-content: start;
+  align-items: flex-start;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  flex-direction: row;
+  overflow: hidden;
+}
+.fontExpand {
+  font-size: 28px;
+}
+.slide {
+  position: relative;
+  width: 320px;
+  height: 180px;
+  background-color: white;
+  margin: 0 1.2vw 2.2vh 1.2vw;
+  box-shadow: -2px 3px 3px 1px rgba(0, 0, 0, 0.15);
+}
+.slideExpand {
+  transition: all 1s ease;
+  width: 1120px;
+  height: 630px;
+}
+.slideHide {
+  display: none;
+}
+.slideTextareaBox {
+  width: calc(100%-2px);
+  height: 100%;
+  border: 0px;
+  z-index: 10;
+  border: 1px solid rgba(50, 50, 50, 0.15);
+  transition: all 1s ease;
+}
+.messageTextarea {
+  width: 100%;
+  height: 16px;
+  border: 0px;
+  outline: none;
+  font-size: 87.5%;
+  resize: none;
+  border: 0px;
+  padding: 0px;
+  margin: 0 auto;
+  color: rgb(66, 175, 113);
+  font-weight: bold;
+  overflow: hidden;
+}
+
+.titleTextarea {
+  width: 100%;
+  height: 14px;
+  border: 0px;
+  outline: none;
+  font-size: 75%;
+  resize: none;
+  border: 0px;
+  padding: 0px;
+  margin: 0 auto;
+  color: rgb(122, 122, 122);
+  overflow: hidden;
+}
+
+.bodiesBox {
+  width: 100%;
+  height: auto;
+  border: 0px;
+  outline: none;
+  border: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  border-top: 1px solid rgb(122, 122, 122);
+}
+
+.body {
+  height: 14px;
+  border: 0px;
+  outline: none;
+  font-size: 75%;
+  resize: none;
+  border: 0px;
+  padding: 10px 0 0;
+  margin: 0 auto;
+  text-align: center;
+  color: rgb(66, 175, 113);
+  overflow: hidden;
+}
+.heightExpand {
+  height: 30px;
+}
+canvas {
+  margin: 2.5px;
+}
+button {
+  vertical-align: super;
+}
+.img_box {
+  width: 320px;
+  height: 120px;
+  margin: 0 auto;
+  text-align: center;
+}
+nav {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  font-size: 12px;
+  margin-top: 10px;
+}
+nav > input,
+nav > button {
+  margin-right: 10px;
+}
+#drowingmodeSelectBtn {
+  margin-left: 10px;
+}
+
+#canvasText {
+  width: 300px;
+}
