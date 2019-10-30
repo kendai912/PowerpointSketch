@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.css"
+    />
+  </head>
+  <body>
+    <div id="firebaseui-auth-container"></div>
+    <div id="loader">Loading...</div>
+
+    <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+    <script>
+      // Initialize Firebase
+      var firebaseConfig = {
+        apiKey: "AIzaSyAopFthZIqUfAoFBptroAB8AVU5F9FwBdM",
+        authDomain: "powerpointsketch.firebaseapp.com",
+        databaseURL: "https://powerpointsketch.firebaseio.com",
+        projectId: "powerpointsketch",
+        storageBucket: "powerpointsketch.appspot.com",
+        messagingSenderId: "148057977730",
+        appId: "1:148057977730:web:98aeccc415767c66ac559b"
+      };
+
+      firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <script type="text/javascript">
+      var ui = new firebaseui.auth.AuthUI(firebase.auth());
+      var uiConfig = {
+        callbacks: {
+          signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+            return true;
+          },
+          uiShown: function() {
+            document.getElementById("loader").style.display = "none";
+          }
+        },
+        signInFlow: "popup",
+        signInSuccessUrl: "./index.html",
+        signInOptions: [
+          firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+          firebase.auth.EmailAuthProvider.PROVIDER_ID
+        ]
+      };
+      ui.start("#firebaseui-auth-container", uiConfig);
+    </script>
+  </body>
+</html>

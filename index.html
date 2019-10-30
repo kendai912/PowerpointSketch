@@ -1,25 +1,5 @@
 <!DOCTYPE html>
 <html>
-  <div class="modal">
-    <div class="howtouse">
-      <h1>使い方</h1>
-      <p>
-        灰色の枠内に文章を記入すると、右側にスライドとして反映されます。<br />
-        スライドをダブルクリックすると、描画ビューと切り替えられます。
-      </p>
-      <h1>文章の記法</h1>
-      <p>
-        ●スライドのメッセージ<br />
-        ・スライドのタイトル<br />
-        ー分析結果やコンテンツ<br />
-      </p>
-      <div id="setsumeiFlag">
-        <input type="checkbox" id="checkbox" />
-        <label for="checkbox">今後この内容を表示しない</label>
-      </div>
-      <div id="start">早速使ってみる</div>
-    </div>
-  </div>
   <head>
     <meta charset="UTF-8" />
     <title>Poweroint Sketch</title>
@@ -31,12 +11,36 @@
     />
   </head>
   <body>
-    <header>
+    <div class="modal">
+      <div class="howtouse">
+        <h1>使い方</h1>
+        <p>
+          灰色の枠内に文章を記入すると、右側にスライドとして反映されます。<br />
+          スライドをダブルクリックすると、描画ビューと切り替えられます。
+        </p>
+        <h1>文章の記法</h1>
+        <p>
+          ●スライドのメッセージ<br />
+          ・スライドのタイトル<br />
+          ー分析結果やコンテンツ<br />
+        </p>
+        <div id="setsumeiFlag">
+          <input type="checkbox" id="checkbox" />
+          <label for="checkbox">今後この内容を表示しない</label>
+        </div>
+        <div id="start">早速使ってみる</div>
+      </div>
+    </div>
+    <header id="pptSketchHeader">
       <h1>Powerpoint Sketch</h1>
       <h2>for consultants</h2>
       <button id="resetPs">Reset Position</button>
       <button id="resetAll">Reset All</button>
     </header>
+    <div class="login">
+      <a href="login.html">login</a>
+    </div>
+    <div class="modalBeforeLogin"></div>
     <main id="pptsketch">
       <div id="storyline">
         <textarea
@@ -47,8 +51,9 @@
       <div id="sketch"></div>
     </main>
 
-    <script src="js/jquery-2.1.3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase.js"></script>
     <script src="js/autosize.js"></script>
     <script src="js/fabric.js"></script>
     <script src="js/main.js"></script>

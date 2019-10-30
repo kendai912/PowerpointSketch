@@ -72,7 +72,7 @@ body {
   top: 3px;
   box-shadow: none;
 }
-header {
+#pptSketchHeader {
   width: 100%;
   height: 100px;
   position: fixed;
@@ -87,14 +87,14 @@ header {
   justify-content: center;
   align-items: baseline;
 }
-header > h1 {
+#pptSketchHeader > h1 {
   padding-top: 32px;
   font-family: "Lobster", cursive;
   font-weight: bold;
   font-size: 36px;
   line-height: 36px;
 }
-header > h2 {
+#pptSketchHeader > h2 {
   font-family: "Lobster", cursive;
   font-size: 20px;
   line-height: 24px;
@@ -116,6 +116,105 @@ header > h2 {
   font-style: italic;
   font-size: 12px;
   line-height: 12px;
+}
+.login {
+  width: 60px;
+  height: 28px;
+  position: fixed;
+  top: 36px;
+  right: 30px;
+  background: #4285f4;
+  color: white;
+  z-index: 10;
+  text-align: center;
+  font-size: 13px;
+  line-height: 28px;
+  cursor: pointer;
+}
+.login a {
+  text-decoration: none;
+  color: white;
+}
+.menu {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.dropdownMenu {
+  position: absolute;
+  right: 0;
+  top: 28px;
+  transition: all 0.3s ease;
+  transform: scale(0);
+  transform-origin: right top;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 8px 0 rgba(0, 0, 0, 0.12);
+  background: white;
+}
+.menu:hover .dropdownMenu {
+  transform: scale(1);
+}
+.dropdownMenu li {
+  display: block;
+  width: 100%;
+}
+.dropdownMenu li,
+.dropdownMenu a {
+  color: #181717;
+  text-decoration: none;
+}
+a:hover {
+  background: #9e9e9e;
+}
+.dropdownMenu > li > a {
+  width: 100%;
+  padding: 1em 18px;
+  display: inline-block;
+  white-space: pre;
+  box-sizing: border-box;
+}
+.newSketchNameBox {
+  width: 300px;
+  /* height: 100px; */
+  position: absolute;
+  right: 100%;
+  top: 0px;
+  transition: all 0.3s ease;
+  transform: scale(0);
+  transform-origin: right top;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 8px 0 rgba(0, 0, 0, 0.12);
+  background: white;
+}
+.newSketch:hover .newSketchNameBox {
+  transform: scale(1);
+}
+.newSketchNameBox > div {
+  display: block;
+  height: 40px;
+  line-height: 40px;
+  font-size: inherit;
+}
+.newSketchNameBox input[type="text"] {
+  vertical-align: top;
+  width: 80%;
+}
+.modalBeforeLogin {
+  width: 100vw;
+  height: calc(100vh - 100px);
+  position: absolute;
+  top: 100px;
+  left: 0;
+  background-color: rgba(138, 124, 124, 0.8);
+  opacity: 0.6;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+}
+.modalBeforeLogin p {
+  font-size: 32px;
+  padding: 10px;
 }
 main {
   width: 100%;
