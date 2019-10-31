@@ -8,123 +8,17 @@ $(function() {
   }
 
   //----------------------------------------------------
-  // Initialize Firebase
+  // StorylineからSketchへのリアルタイム反映処理ファンクション
   //----------------------------------------------------
-  var firebaseConfig = {
-    apiKey: "AIzaSyAopFthZIqUfAoFBptroAB8AVU5F9FwBdM",
-    authDomain: "powerpointsketch.firebaseapp.com",
-    databaseURL: "https://powerpointsketch.firebaseio.com",
-    projectId: "powerpointsketch",
-    storageBucket: "powerpointsketch.appspot.com",
-    messagingSenderId: "148057977730",
-    appId: "1:148057977730:web:98aeccc415767c66ac559b"
-  };
-
-  firebase.initializeApp(firebaseConfig);
-  const database = firebase.database();
-  let userId, userName;
-  //----------------------------------------------------
-  // Login Check
-  //----------------------------------------------------
-  firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-      user = firebase.auth().currentUser;
-      userId = user.uid;
-      userName = user.displayName;
-      // console.log("user = " + JSON.stringify(user));
-      console.log("userId for 認証 = " + userId);
-      console.log("userName for 認証 = " + userName);
-
-      //Redirect
-      const redirect = filename => {
-        location.href = filename;
-      };
-
-      // database.ref("users/" + userId + "/memo01").set({
-      //   data: "USER01のデータ"
-      // });
-      $(".login").html(
-        '<div class="menu">Menu' +
-          '<ul class="dropdownMenu"><li class="newSketch"><a href="#">New Sketch</a>' +
-          '<div class="newSketchNameBox"><div for="canvasText">新たに作成するSketch名</div><div><input type="text" id="newSketchNameText"></div></div></li>' +
-          '<li><a href="#">Saved data</a></li><li><a href="#!">Share</a></li><li id="signout"><a>Sign out</a></li></ul></div>'
-      );
-
-      //----------------------------------------------------
-      //Menuイベント
-      //----------------------------------------------------
-      //New Sketch
-      $("#newSketchNameText").on("keydown", function(e) {
-        if (e.keyCode == 13 && $("#newSketchNameText").val() != "") {
-          sketchName = $("#newSketchNameText").val();
-          console.log("new create sketchName = " + sketchName);
-          $("#newSketchNameText").val("");
-          $(".modalBeforeLogin").hide();
-
-          //----------------------------------------------------
-          //受信
-          //----------------------------------------------------
-
-          database
-            .ref("users/" + userId + "/" + sketchName)
-            .on("value", function(data) {
-              try {
-                const storylineDatabase = data.val().storyline;
-                console.log("sketchName for 受信 = " + sketchName);
-                console.log("userId for 受信 = " + userId);
-                console.log(
-                  "storylineDatabase for 受信 = " + storylineDatabase
-                );
-                $("#storylineInput").val("");
-                $("#storylineInput").val(storylineDatabase + "---");
-              } catch (e) {
-                console.log("[storyline] on firebase is not set");
-              }
-            });
-        }
-      });
-
-      //Sing out
-      $("#signout").on("click", function() {
-        // console.log("singing out...");
-        firebase
-          .auth()
-          .signOut()
-          .then(function() {
-            redirect("login.html");
-          })
-          .catch(function(error) {
-            alert("Out Error");
-          });
-      });
-    } else {
-      //Not Login
-      redirect("login.html");
-    }
-  });
-  //----------------------------------------------------
-
-  $("#storylineInput").on("input", function() {
+  const updateSketch = input_text => {
     let regExp = /\r?\n\r?\n/g;
     let slides;
-    let input_text = $("#storylineInput").val();
+    // let input_text = $("#storylineInput").val();
     let regExpMessage = /●.+\n/;
     let regExpTitle = /・.+\n/;
     let regExpBodies = /\sー.+/g;
     let canvasFlag = false;
     let status;
-
-    //----------------------------------------------------
-    //データ送信
-    //----------------------------------------------------
-    localStorage.setItem("storyline", input_text);
-    console.log("userId for 送信 = " + userId);
-    if (sketchName != null) {
-      database.ref("users/" + userId + "/" + sketchName).set({
-        storyline: input_text
-      });
-      console.log("writing on firebase...: " + input_text);
-    }
 
     slides = input_text.split(regExp);
     //空白や記法が違うのものを削除
@@ -136,9 +30,6 @@ $(function() {
     });
     // console.log("slides = " + slides);
 
-    //----------------------------------------------------
-    // StorylineからSketchへのリアルタイム反映処理
-    //----------------------------------------------------
     $("#sketch").html("");
     for (let i = 0; i < slides.length; i++) {
       let message;
@@ -149,15 +40,15 @@ $(function() {
       let titleHTML = "";
       let bodiesHTML = "";
 
-      // console.log("slide[i] = " + slides[i]);
+      console.log("slide[i] = " + slides[i]);
       message = slides[i].match(regExpMessage);
       title = slides[i].match(regExpTitle);
       while ((body = regExpBodies.exec(slides[i]))) {
         bodies.push(body);
       }
-      // console.log("message = " + message);
-      // console.log("title = " + title);
-      // console.log("bodies = " + bodies);
+      console.log("message = " + message);
+      console.log("title = " + title);
+      console.log("bodies = " + bodies);
       message == null
         ? (messageHTML = "")
         : (messageHTML =
@@ -175,9 +66,9 @@ $(function() {
         : (bodiesHTML =
             '<div class="bodiesBox" id="bodiesBox_' + i + '"></div>');
 
-      // console.log("messageHTML = " + messageHTML);
-      // console.log("titleHTML = " + titleHTML);
-      // console.log("bodiesHTML = " + bodiesHTML);
+      console.log("messageHTML = " + messageHTML);
+      console.log("titleHTML = " + titleHTML);
+      console.log("bodiesHTML = " + bodiesHTML);
       $("#sketch").append('<div id="slide_' + i + '" class="slide"></div>');
       $("#slide_" + i).append(
         '<div id="slideTextareaBox_' +
@@ -214,7 +105,6 @@ $(function() {
       autosize($(".messageTextarea"));
       autosize($(".titleTextarea"));
       autosize($(".body"));
-
       $("#slide_" + i).on("dblclick", function() {
         $("#slide_" + i).toggleClass("slideExpand fontExpand");
         $(".messageTextarea ").removeAttr("style");
@@ -305,6 +195,172 @@ $(function() {
 
       $("#slide_" + i).draggable();
     }
+  };
+
+  //----------------------------------------------------
+  // Initialize Firebase
+  //----------------------------------------------------
+  var firebaseConfig = {
+    apiKey: "AIzaSyAopFthZIqUfAoFBptroAB8AVU5F9FwBdM",
+    authDomain: "powerpointsketch.firebaseapp.com",
+    databaseURL: "https://powerpointsketch.firebaseio.com",
+    projectId: "powerpointsketch",
+    storageBucket: "powerpointsketch.appspot.com",
+    messagingSenderId: "148057977730",
+    appId: "1:148057977730:web:98aeccc415767c66ac559b"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
+  let userId, userName;
+  //----------------------------------------------------
+  // Login Check
+  //----------------------------------------------------
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      user = firebase.auth().currentUser;
+      userId = user.uid;
+      userName = user.displayName;
+      // console.log("user = " + JSON.stringify(user));
+      console.log("userId for 認証 = " + userId);
+      console.log("userName for 認証 = " + userName);
+
+      //Redirect
+      const redirect = filename => {
+        location.href = filename;
+      };
+
+      $(".login").html(
+        '<div class="menu">Menu' +
+          '<ul class="dropdownMenu"><li class="newSketch"><a href="#">New Sketch</a>' +
+          '<div class="newSketchNameBox"><div for="canvasText">新たに作成するSketch名</div><div><input type="text" id="newSketchNameText"></div></div></li>' +
+          '<li><a href="#">Saved data</a></li><li><a href="#!">Share</a></li><li id="signout"><a>Sign out</a></li></ul></div>'
+      );
+
+      //----------------------------------------------------
+      //Menuイベント
+      //----------------------------------------------------
+      //New Sketch
+      $("#newSketchNameText").on("keydown", function(e) {
+        if (e.keyCode == 13 && $("#newSketchNameText").val() != "") {
+          sketchName = $("#newSketchNameText").val();
+          console.log("new create sketchName = " + sketchName);
+          $("#newSketchNameText").val("");
+          $(".modalBeforeLogin").hide();
+
+          //----------------------------------------------------
+          //受信
+          //----------------------------------------------------
+
+          database
+            .ref("users/" + userId + "/" + sketchName)
+            .on("value", function(data) {
+              try {
+                const storylineDatabase = data.val().storyline;
+                console.log("sketchName for 受信 = " + sketchName);
+                console.log("userId for 受信 = " + userId);
+                console.log(
+                  "storylineDatabase for 受信 = " + storylineDatabase
+                );
+
+                //受信をstorylineに反映
+                console.log("updating storyline...");
+                $("#storylineInput").val("");
+                $("#storylineInput").val(storylineDatabase);
+
+                //受信をsketchに反映
+                console.log("updating sketch...");
+                updateSketch(storylineDatabase);
+                console.log("updated sketch...!!!");
+              } catch (e) {
+                console.log("[storyline] on firebase is not set");
+              }
+            });
+        }
+      });
+
+      //Sing out
+      $("#signout").on("click", function() {
+        // console.log("singing out...");
+        firebase
+          .auth()
+          .signOut()
+          .then(function() {
+            redirect("login.html");
+          })
+          .catch(function(error) {
+            alert("Out Error");
+          });
+      });
+    } else {
+      //Not Login
+      redirect("login.html");
+    }
+  });
+  //----------------------------------------------------
+
+  //----------------------------------------------------
+  //データ送信ファンクション
+  //----------------------------------------------------
+  // localStorage.setItem("storyline", input_text);
+  // let sendToFirebase = () => {
+  //   let input_text = $("#storylineInput").val();
+  //   console.log("userId for 送信 = " + userId);
+  //   if (sketchName != null) {
+  //     database.ref("users/" + userId + "/" + sketchName).set({
+  //       storyline: input_text
+  //     });
+  //     console.log("writing on firebase...: " + input_text);
+  //   }
+  // };
+
+  let sendToFirebase = (key, value) => {
+    console.log("userId for 送信 = " + userId);
+    const cursorPointData = $("#storylineInput").get(0).selectionStart;
+    let keyCursor = "cursorPoint" + userId;
+    if (sketchName != null) {
+      database.ref("users/" + userId + "/" + sketchName).set({
+        [key]: value,
+        cursorPoint: { [userId]: cursorPointData }
+      });
+      console.log("writing on firebase...: key = " + key + " value = " + value);
+    }
+  };
+
+  $("#storylineInput").on({
+    "keyup.inputcontrol.alphanum": function(e) {
+      if (!e.ctrlKey && !e.altKey) {
+        console.log("keyCode = " + e.keyCode);
+        // 半角英数の処理
+        if (e.keyCode == 13) {
+          console.log("半角入力処理");
+          const input_text = $("#storylineInput").val();
+          const cursorPoint = $(this).get(0).selectionStart;
+
+          // sendToFirebase("cursorPoint" + userId, cursorPoint);
+          sendToFirebase("storyline", input_text);
+          $("#storylineInput")
+            .get(0)
+            .setSelectionRange(cursorPoint, cursorPoint);
+          console.log("cursorPoint of " + userId + " = " + cursorPoint);
+        }
+      }
+    },
+    compositionend: function(e) {
+      // "keyup.inputcontrol.zenkaku": function(e) {
+      // IME確定時の処理
+      console.log("keyCode = " + e.keyCode);
+      console.log("IME確定時処理");
+      const input_text = $("#storylineInput").val();
+      const cursorPoint = $(this).get(0).selectionStart;
+
+      // sendToFirebase("cursorPoint" + userId, cursorPoint);
+      sendToFirebase("storyline", input_text);
+      $("#storylineInput")
+        .get(0)
+        .setSelectionRange(cursorPoint, cursorPoint);
+      console.log("cursorPoint of " + userId + " = " + cursorPoint);
+    }
   });
 
   //----------------------------------------------------
@@ -349,9 +405,9 @@ $(function() {
     localStorage.setItem("modalNoShow", $("#checkbox").prop("checked"));
   });
 
-  $("#storylineInput")
-    .val(localStorage.getItem("storyline"))
-    .trigger("input");
+  // $("#storylineInput")
+  //   .val(localStorage.getItem("storyline"))
+  //   .trigger("input");
 });
 
 /*
